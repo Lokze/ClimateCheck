@@ -1,10 +1,12 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import gwimg from './media/gw.png'
+
 
 function Cards() {
   return (
     <Card style={{ width: '18rem' }}>
-      <Card.Img variant="top" src="/climatecheck/src/media/gw2.png" />
+      <Card.Img variant="top" src={gwimg}/>
       <Card.Body>
         <Card.Title>Card Title</Card.Title>
         <Card.Text>
