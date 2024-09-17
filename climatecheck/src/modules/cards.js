@@ -1,17 +1,63 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import gwimg from './media/gw.png'
+import gwimg from './media/gw.png';
+import co2img from './media/co2.png';
+import ch4img from './media/ch4.png';
+import no2img from './media/no2.png';
+import polarimg from './media/polar.png'
 
 
-function Cards() {
+function Cards({cardtype}) {
+
+  var title="";
+  var desc="";
+  var img='';
+  
+
+
+
+  switch (cardtype){
+    case "Gw":
+      title="Global Warming";
+      desc="Shows a chart to check the risign global temperature since year 1";
+      img=gwimg;
+    break
+
+    case "co2":
+      title="Carbon Dioxide";
+      desc="Shows a chart to check the levels of Carbon Dioxide in the atmosphere since 800,000 years ago";
+      img=co2img;
+    break
+    
+    case "ch4":
+      title="Methane";
+      desc="Shows a chart to check the levels of methane in the atmosphere since 800,000 years ago";
+      img= ch4img;
+      break;
+
+    case "no2":
+      title="Nitrous Oxide";
+      desc="Shows a chart to check the levels of Nitrous Oxide in the atmosphere since 800,000 years ago";
+      img=no2img;
+      break;
+
+    case "polar":
+       title="Sea Ice Extent";
+       desc="Shows a chart to check the levels of Sea Ice since 1970";
+       img=polarimg;
+       break;
+      
+
+      default:
+        alert("error misisng card")
+  }
   return (
-    <Card style={{ width: '18rem' }}>
-      <Card.Img variant="top" src={gwimg}/>
+    <Card className='ms-5 mt-5' style={{ width: '18rem' }}>
+      <Card.Img variant="top" src={img}/>
       <Card.Body>
-        <Card.Title>Card Title</Card.Title>
+        <Card.Title>{title}</Card.Title>
         <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
+          {desc}
         </Card.Text>
         <Button variant="primary">Go somewhere</Button>
       </Card.Body>

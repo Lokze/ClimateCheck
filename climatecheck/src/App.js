@@ -16,7 +16,15 @@ function App() {
       <p className='h5 position-absolute  start-50 translate-middle'>Here you can check some graphs about global climate </p>
     </Container>
 
-    <Cards></Cards>
+<div className='d-flex flex-row position-absolute top-50 start-50 translate-middle '>
+    <Cards cardtype={"Gw"} ></Cards>  
+    <Cards cardtype={"co2"} ></Cards>
+    <Cards cardtype={"ch4"} ></Cards>
+    <Cards cardtype={"no2"} ></Cards>
+    <Cards cardtype={"polar"} ></Cards>
+</div>
+
+
     </body>
     
   );
