@@ -5,7 +5,7 @@ import co2img from './media/co2.png';
 import ch4img from './media/ch4.png';
 import no2img from './media/no2.png';
 import polarimg from './media/polar.png'
-
+import 'bootstrap/dist/css/bootstrap.css'
 
 function Cards({cardtype}) {
 
@@ -52,14 +52,14 @@ function Cards({cardtype}) {
         alert("error misisng card")
   }
   return (
-    <Card className='ms-5 mt-5' style={{ width: '18rem' }}>
+    <Card className=' text-center mt-5'>
       <Card.Img variant="top" src={img}/>
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Text>
           {desc}
         </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
+       <Button variant="primary">hey</Button>
       </Card.Body>
     </Card>
   );
