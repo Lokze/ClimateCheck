@@ -3,12 +3,14 @@ import 'bootstrap/dist/css/bootstrap.css'
 import Container from 'react-bootstrap/Container';
 import NavbarModule from './modules/navbar';
 import Cards from './modules/cards';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import GlobalWarmingPage from './pages/gw';
+
 
 function App() {
   return (
     <body>
-     
-
+  <Router>
    <NavbarModule/>
     <Container fluid className="text-center d-inline-flex p-4 justify-content-center">
       <h2>Welcome to <span className="highlighted-word font-weight-bold text-primary">Climate Check</span></h2>
@@ -17,27 +19,33 @@ function App() {
       <p className='h5 position-absolute  start-50 translate-middle'>Here you can check some graphs about global climate </p>
     </Container>
 
-    <div className="container d-flex justify-content-center mt-3 mb-5">
-  <div className="row d-flex justify-content-center gap-4" style={{ width: '100%' }}>
-    <div className="col-12 col-md-4 col-lg-3 d-flex">
-      <Cards cardtype="Gw" />
-    </div>
-    <div className="col-12 col-md-4 col-lg-3 d-flex">
-      <Cards cardtype="co2" />
-    </div>
-    <div className="col-12 col-md-4 col-lg-3 d-flex">
-      <Cards cardtype="ch4" />
-    </div>
-    <div className="col-12 col-md-4 col-lg-3 d-flex">
-      <Cards cardtype="no2" />
-    </div>
-    <div className="col-12 col-md-4 col-lg-3 d-flex">
-      <Cards cardtype="polar" />
-    </div>
-  </div>
-</div>
+
+<Routes>
+<Route path="/" element={
+          <div className="container d-flex justify-content-center mt-3 mb-5">
+            <div className="row d-flex justify-content-center gap-4" style={{ width: '100%' }}>
+              <div className="col-12 col-md-4 col-lg-3 d-flex">
+                <Cards cardtype="Gw" />
+              </div>
+              <div className="col-12 col-md-4 col-lg-3 d-flex">
+                <Cards cardtype="co2" />
+              </div>
+              <div className="col-12 col-md-4 col-lg-3 d-flex">
+                <Cards cardtype="ch4" />
+              </div>
+              <div className="col-12 col-md-4 col-lg-3 d-flex">
+                <Cards cardtype="no2" />
+              </div>
+              <div className="col-12 col-md-4 col-lg-3 d-flex">
+                <Cards cardtype="polar" />
+              </div>
+            </div>
+          </div>
+        } />
+       <Route path="/global-warming" element={<GlobalWarmingPage />} />
+</Routes>
+</Router>
     </body>
-    
   );
 }
 

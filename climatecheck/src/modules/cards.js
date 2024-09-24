@@ -6,13 +6,16 @@ import ch4img from './media/ch4.png';
 import no2img from './media/no2.png';
 import polarimg from './media/polar.png'
 import 'bootstrap/dist/css/bootstrap.css'
+import {Link} from 'react-router-dom';
+
+
 
 function Cards({cardtype}) {
 
   var title="";
   var desc="";
   var img='';
-  
+  var pag='';  
 
 
 
@@ -21,6 +24,7 @@ function Cards({cardtype}) {
       title="Global Warming";
       desc="Shows a chart to check the risign global temperature since year 1";
       img=gwimg;
+      pag='/global-warming'
     break
 
     case "co2":
@@ -59,7 +63,9 @@ function Cards({cardtype}) {
         <Card.Text>
           {desc}
         </Card.Text>
-       <Button variant="primary">hey</Button>
+        <Link to={pag}>
+       <Button variant="primary">Lern More</Button>
+       </Link>
       </Card.Body>
     </Card>
   );
