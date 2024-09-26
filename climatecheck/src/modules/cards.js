@@ -22,7 +22,7 @@ function Cards({cardtype}) {
   switch (cardtype){
     case "Gw":
       title="Global Warming";
-      desc="Shows a chart to check the risign global temperature since year 1";
+      desc="Shows a chart to check the risign global temperature since 1880.04";
       img=gwimg;
       pag='/global-warming'
     break
