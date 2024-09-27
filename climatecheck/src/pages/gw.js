@@ -1,14 +1,25 @@
-
 import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.css'
-import { LineChart} from '@mui/x-charts/LineChart';
+import 'bootstrap/dist/css/bootstrap.css';
+import Container from 'react-bootstrap/Container';
+import { LineChart } from '@mui/x-charts/LineChart';
 import { useEffect, useState } from 'react';
 
 function GlobalWarmingPage() {
+  const getResponsiveWidth = () => {
+    const screenWidth = document.documentElement.clientWidth;
+    if (screenWidth < 576) {
+      return Math.max(screenWidth * 0.9, 300);
+    } else if (screenWidth < 768) {
+      return Math.max(screenWidth * 0.75, 350);
+    } else {
+      return Math.max(screenWidth * 0.7, 400);
+    }
+  };
+
+  const [chartWidth, setChartWidth] = useState(getResponsiveWidth());
   const [data, setData] = useState({ time: [], station: [] });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [chartWidth, setChartWidth] = useState(document.documentElement.clientWidth * 0.8); // 80% of the page width
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,7 +41,7 @@ function GlobalWarmingPage() {
     fetchData();
 
     const handleResize = () => {
-      setChartWidth(document.documentElement.clientWidth * 0.8); // Recalculate 80% of page width on resize
+      setChartWidth(getResponsiveWidth());
     };
 
     window.addEventListener('resize', handleResize);
@@ -44,14 +55,20 @@ function GlobalWarmingPage() {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="container">
-      <div className="row justify-content-start">
-        <div className="col-12 col-sm-10 col-md-8 col-lg-6">
+    <div>
+       <Container fluid className="text-center d-flex flex-column p-4 justify-content-center">
+        <h3 className="text-wrap w-100">This is a chart that shows the rising global temperature since April of 1880</h3>
+        <h5 className="text-wrap w-100">If reading from a phone, it is suggested to keep the phone horizontal as the graph is quite large.</h5>
+      </Container>
+
+      <div className="container d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+        <div style={{ width: chartWidth }}>
           <LineChart
-            xAxis={[{ data: data.time }]}
+            xAxis={[{ data: data.time, label: 'YEAR' }]}
+            yAxis={[{ label: 'CELSIUS' }]}
             series={[{ data: data.station }]}
             width={chartWidth}
-            height={chartWidth * 0.6} // Maintain a 3:2 aspect ratio
+            height={chartWidth * 0.6}
           />
         </div>
       </div>

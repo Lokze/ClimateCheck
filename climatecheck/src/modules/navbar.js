@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 const NavbarModule = () => {
   return (
-    <Navbar bg='primary' variant="dark" expand="lg">
+    <Navbar className='mb-5' bg='primary' variant="dark" expand="lg">
       <Container>
         <Navbar.Brand as={Link} to="/">ClimateCheck</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

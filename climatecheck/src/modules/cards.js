@@ -31,6 +31,7 @@ function Cards({cardtype}) {
       title="Carbon Dioxide";
       desc="Shows a chart to check the levels of Carbon Dioxide in the atmosphere since 800,000 years ago";
       img=co2img;
+      pag='/co2'
     break
     
     case "ch4":
