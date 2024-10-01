@@ -38,6 +38,7 @@ function Cards({cardtype}) {
       title="Methane";
       desc="Shows a chart to check the levels of methane in the atmosphere since 800,000 years ago";
       img= ch4img;
+      pag="/ch4"
       break;
 
     case "no2":

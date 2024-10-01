@@ -6,6 +6,7 @@ import Cards from './modules/cards';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import GlobalWarmingPage from './pages/gw';
 import Co2 from './pages/co2'
+import MethanePage from './pages/methane';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
         }/>
         <Route path="/global-warming" element={<GlobalWarmingPage />} />
         <Route path='/co2' element={<Co2/>}/>
+        <Route path='/ch4' element={<MethanePage/>}/>
       </Routes>
     </Router>
   </div>

@@ -28,7 +28,7 @@ function Co2() {
             const fetchedData = response.data.co2;
             const dataByYear = groupBy(fetchedData,'year')
             const time = Object.keys(dataByYear);
-            const trend = Object.entries(dataByYear).map(([year,data])=>data[0].trend);
+            const trend = Object.entries(dataByYear).map(([time,data])=>data[0].trend);
 
             setData({time, trend });
             setLoading(false);

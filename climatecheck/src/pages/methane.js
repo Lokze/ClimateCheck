@@ -5,7 +5,7 @@ import { LineChart } from '@mui/x-charts/LineChart';
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { debounce, groupBy } from 'lodash';
 
-function GlobalWarmingPage() {
+function MethanePage() {
     const getResponsiveWidth = () => {
         const screenWidth = document.documentElement.clientWidth;
         if (screenWidth < 576) {
@@ -18,23 +18,23 @@ function GlobalWarmingPage() {
     };
 
     const [chartWidth, setChartWidth] = useState(getResponsiveWidth());
-    const [data, setData] = useState({ time: [], station: [] });
+    const [data, setData] = useState({ time: [], trend: [] });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     const fetchData = useCallback(async () => {
         try {
-            const response = await axios.get('https://global-warming.org/api/temperature-api');
-            const fetchedData = response.data.result;
+            const response = await axios.get('https://global-warming.org/api/methane-api');
+            const fetchedData = response.data.methane;
             const newTime=fetchedData.map(item=>{
-                item.time=item.time.slice(0,4);
+                item.date=item.date.slice(0,4);
                 return(item);
         });
-            const dataByYear = groupBy(newTime,'time');
+            const dataByYear = groupBy(newTime,'date');
             const time = Object.keys(dataByYear);
-            const station = Object.entries(dataByYear).map(([time,data])=>data[0].station)
+            const trend = Object.entries(dataByYear).map(([date,data])=>data[0].trend)
 
-            setData({ time, station });
+            setData({ time, trend });
             setLoading(false);
         } catch (error) {
             setError('Something went wrong with the API call.');
@@ -60,7 +60,7 @@ function GlobalWarmingPage() {
 
     const memoizedData = useMemo(() => ({
         time: data.time,
-        station: data.station
+        trend: data.trend
     }), [data]);
 
     if (loading) return <div>Loading...</div>;
@@ -77,8 +77,8 @@ function GlobalWarmingPage() {
                 <div style={{ width: chartWidth }}>
                     <LineChart
                         xAxis={[{ data: memoizedData.time, label: 'YEAR' }]}
-                        yAxis={[{ label: 'CELSIUS' }]}
-                        series={[{ data: memoizedData.station }]}
+                        yAxis={[{ label: 'PART PER MILLION (ppm)' }]}
+                        series={[{ data: memoizedData.trend, }]}
                         width={chartWidth}
                         height={chartWidth * 0.6}
                     />
@@ -88,4 +88,4 @@ function GlobalWarmingPage() {
     );
 }
 
-export default GlobalWarmingPage;
+export default MethanePage;
