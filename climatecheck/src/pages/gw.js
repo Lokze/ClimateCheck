@@ -1,13 +1,25 @@
-import axios from 'axios';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import Container from 'react-bootstrap/Container';
-import { LineChart } from '@mui/x-charts/LineChart';
-import { useEffect, useState, useMemo, useCallback } from 'react';
-import { debounce, groupBy } from 'lodash';
+import { Line } from 'react-chartjs-2';
+import { debounce } from 'lodash';
+import { fetchTemperatureData } from './api'; // Import the API function
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+} from 'chart.js';
+
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 function GlobalWarmingPage() {
     const getResponsiveWidth = () => {
-        const screenWidth = document.documentElement.clientWidth;
+        const screenWidth = window.innerWidth;
         if (screenWidth < 576) {
             return Math.max(screenWidth * 0.9, 300);
         } else if (screenWidth < 768) {
@@ -24,20 +36,11 @@ function GlobalWarmingPage() {
 
     const fetchData = useCallback(async () => {
         try {
-            const response = await axios.get('https://global-warming.org/api/temperature-api');
-            const fetchedData = response.data.result;
-            const newTime=fetchedData.map(item=>{
-                item.time=item.time.slice(0,4);
-                return(item);
-        });
-            const dataByYear = groupBy(newTime,'time');
-            const time = Object.keys(dataByYear);
-            const station = Object.entries(dataByYear).map(([time,data])=>data[0].station)
-
-            setData({ time, station });
+            const data = await fetchTemperatureData(); // Call the API function
+            setData(data);
             setLoading(false);
         } catch (error) {
-            setError('Something went wrong with the API call.');
+            setError(error.message); // Handle error message from the API module
             setLoading(false);
         }
     }, []);
@@ -58,10 +61,37 @@ function GlobalWarmingPage() {
         };
     }, [fetchData]);
 
-    const memoizedData = useMemo(() => ({
-        time: data.time,
-        station: data.station
+    const chartData = useMemo(() => ({
+        labels: data.time,
+        datasets: [
+            {
+                label: 'CELSIUS',
+                data: data.station,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                fill: true,
+            },
+        ],
     }), [data]);
+
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'YEAR',
+                },
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'CELSIUS',
+                },
+            },
+        },
+    };
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
@@ -69,16 +99,15 @@ function GlobalWarmingPage() {
     return (
         <div>
             <Container fluid className="text-center d-flex flex-column p-4 justify-content-center">
-                <h3 className="text-wrap w-100">This is a chart that shows the rising global temperature since April of 1880</h3>
+                <h3 className="text-wrap w-100">This is a chart that shows the rising global temperature since 1880</h3>
                 <h5 className="text-wrap w-100">If reading from a phone, it is suggested to keep the phone horizontal as the graph is quite large.</h5>
             </Container>
 
             <div className="container d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-                <div style={{ width: chartWidth }}>
-                    <LineChart
-                        xAxis={[{ data: memoizedData.time, label: 'YEAR' }]}
-                        yAxis={[{ label: 'CELSIUS' }]}
-                        series={[{ data: memoizedData.station }]}
+                <div style={{ width: chartWidth, height: chartWidth * 0.6 }}>
+                    <Line
+                        data={chartData}
+                        options={chartOptions}
                         width={chartWidth}
                         height={chartWidth * 0.6}
                     />

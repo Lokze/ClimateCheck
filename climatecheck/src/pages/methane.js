@@ -1,13 +1,25 @@
-import axios from 'axios';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import Container from 'react-bootstrap/Container';
-import { LineChart } from '@mui/x-charts/LineChart';
-import { useEffect, useState, useMemo, useCallback } from 'react';
-import { debounce, groupBy } from 'lodash';
+import { Line } from 'react-chartjs-2';
+import { debounce } from 'lodash';
+import { fetchMethaneData } from './api';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+} from 'chart.js';
+
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 function MethanePage() {
     const getResponsiveWidth = () => {
-        const screenWidth = document.documentElement.clientWidth;
+        const screenWidth = window.innerWidth;
         if (screenWidth < 576) {
             return Math.max(screenWidth * 0.9, 300);
         } else if (screenWidth < 768) {
@@ -24,20 +36,11 @@ function MethanePage() {
 
     const fetchData = useCallback(async () => {
         try {
-            const response = await axios.get('https://global-warming.org/api/methane-api');
-            const fetchedData = response.data.methane;
-            const newTime=fetchedData.map(item=>{
-                item.date=item.date.slice(0,4);
-                return(item);
-        });
-            const dataByYear = groupBy(newTime,'date');
-            const time = Object.keys(dataByYear);
-            const trend = Object.entries(dataByYear).map(([date,data])=>data[0].trend)
-
-            setData({ time, trend });
+            const data = await fetchMethaneData();
+            setData(data);
             setLoading(false);
         } catch (error) {
-            setError('Something went wrong with the API call.');
+            setError(error.message);
             setLoading(false);
         }
     }, []);
@@ -58,10 +61,37 @@ function MethanePage() {
         };
     }, [fetchData]);
 
-    const memoizedData = useMemo(() => ({
-        time: data.time,
-        trend: data.trend
+    const chartData = useMemo(() => ({
+        labels: data.time,
+        datasets: [
+            {
+                label: 'PART PER MILLION (ppm)',
+                data: data.trend,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                fill: true,
+            },
+        ],
     }), [data]);
+
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'YEAR',
+                },
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'PART PER MILLION (ppm)',
+                },
+            },
+        },
+    };
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
@@ -69,16 +99,15 @@ function MethanePage() {
     return (
         <div>
             <Container fluid className="text-center d-flex flex-column p-4 justify-content-center">
-                <h3 className="text-wrap w-100">This is a chart that shows the rising global temperature since April of 1880</h3>
+                <h3 className="text-wrap w-100">This is a chart that shows the rising levels of Methane since 1984</h3>
                 <h5 className="text-wrap w-100">If reading from a phone, it is suggested to keep the phone horizontal as the graph is quite large.</h5>
             </Container>
 
             <div className="container d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-                <div style={{ width: chartWidth }}>
-                    <LineChart
-                        xAxis={[{ data: memoizedData.time, label: 'YEAR' }]}
-                        yAxis={[{ label: 'PART PER MILLION (ppm)' }]}
-                        series={[{ data: memoizedData.trend, }]}
+                <div style={{ width: chartWidth, height: chartWidth * 0.6 }}>
+                    <Line
+                        data={chartData}
+                        options={chartOptions}
                         width={chartWidth}
                         height={chartWidth * 0.6}
                     />

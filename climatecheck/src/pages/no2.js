@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Container from 'react-bootstrap/Container';
 import { Line } from 'react-chartjs-2';
 import { debounce } from 'lodash';
-import { fetchCo2Data } from './api';
+import { fetchNitrousData } from './api';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -17,7 +17,7 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-function Co2() {
+function NitrousPage() {
     const getResponsiveWidth = () => {
         const screenWidth = window.innerWidth;
         if (screenWidth < 576) {
@@ -36,7 +36,7 @@ function Co2() {
 
     const fetchData = useCallback(async () => {
         try {
-            const data = await fetchCo2Data();
+            const data = await fetchNitrousData();
             setData(data);
             setLoading(false);
         } catch (error) {
@@ -65,7 +65,7 @@ function Co2() {
         labels: data.time,
         datasets: [
             {
-                label: 'PART PER MILLION (ppm)',
+                label: 'NITROUS OXIDE MOLE FRACTION (ppb)',
                 data: data.trend,
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -87,7 +87,7 @@ function Co2() {
             y: {
                 title: {
                     display: true,
-                    text: 'PART PER MILLION (ppm)',
+                    text: 'NITROUS OXIDE MOLE FRACTION (ppb)',
                 },
             },
         },
@@ -99,7 +99,7 @@ function Co2() {
     return (
         <div>
             <Container fluid className="text-center d-flex flex-column p-4 justify-content-center">
-                <h3 className="text-wrap w-100">This is a chart that shows the concentration levels of Co2 since 2014</h3>
+                <h3 className="text-wrap w-100">This is a chart that shows the rising levels of Nitrous Oxide since 2002</h3>
                 <h5 className="text-wrap w-100">If reading from a phone, it is suggested to keep the phone horizontal as the graph is quite large.</h5>
             </Container>
 
@@ -117,4 +117,4 @@ function Co2() {
     );
 }
 
-export default Co2;
+export default NitrousPage;

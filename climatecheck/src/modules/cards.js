@@ -45,6 +45,7 @@ function Cards({cardtype}) {
       title="Nitrous Oxide";
       desc="Shows a chart to check the levels of Nitrous Oxide in the atmosphere since 800,000 years ago";
       img=no2img;
+      pag='/no2'
       break;
 
     case "polar":
