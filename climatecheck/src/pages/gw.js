@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Container from 'react-bootstrap/Container';
 import { Line } from 'react-chartjs-2';
 import { debounce } from 'lodash';
-import { fetchTemperatureData } from './api'; // Import the API function
+import { fetchTemperatureData } from './api'; 
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -36,11 +36,11 @@ function GlobalWarmingPage() {
 
     const fetchData = useCallback(async () => {
         try {
-            const data = await fetchTemperatureData(); // Call the API function
+            const data = await fetchTemperatureData(); 
             setData(data);
             setLoading(false);
         } catch (error) {
-            setError(error.message); // Handle error message from the API module
+            setError(error.message); 
             setLoading(false);
         }
     }, []);

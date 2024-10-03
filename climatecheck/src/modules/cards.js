@@ -52,6 +52,7 @@ function Cards({cardtype}) {
        title="Sea Ice Extent";
        desc="Shows a chart to check the levels of Sea Ice since 1970";
        img=polarimg;
+       pag='/polar-ice';
        break;
       
 

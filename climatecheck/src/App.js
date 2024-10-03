@@ -8,6 +8,7 @@ import GlobalWarmingPage from './pages/gw';
 import Co2 from './pages/co2'
 import MethanePage from './pages/methane';
 import NitrousPage from './pages/no2';
+import PolarIcePage from './pages/polar';
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
         <Route path='/co2' element={<Co2/>}/>
         <Route path='/ch4' element={<MethanePage/>}/>
         <Route path='/no2' element={<NitrousPage/>}/>
+        <Route path='/polar-ice' element={<PolarIcePage/>}/>
       </Routes>
     </Router>
   </div>
