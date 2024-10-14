@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { groupBy } from 'lodash';
 
+
 export const fetchTemperatureData = async () => {
     try {
         const response = await axios.get('https://global-warming.org/api/temperature-api');

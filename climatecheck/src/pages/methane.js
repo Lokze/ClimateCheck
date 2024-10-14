@@ -18,6 +18,11 @@ import {
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 function MethanePage() {
+    useEffect(() => {
+        document.title = 'Climate Check';
+      }, []);
+
+
     const getResponsiveWidth = () => {
         const screenWidth = window.innerWidth;
         if (screenWidth < 576) {
