@@ -14,6 +14,7 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
+import ApiUnaviable from './apiUnaviable';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -94,7 +95,7 @@ function GlobalWarmingPage() {
     };
 
     if (loading) return <div>Loading...</div>;
-    if (error) return <div>{error}</div>;
+    if (error) return <div>{error}<ApiUnaviable/></div>;
 
     return (
         <div>
