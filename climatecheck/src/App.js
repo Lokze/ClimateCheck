@@ -9,8 +9,12 @@ import Co2 from './pages/co2'
 import MethanePage from './pages/methane';
 import NitrousPage from './pages/no2';
 import PolarIcePage from './pages/polar';
+import React, { useEffect } from 'react';
 
 function App() {
+  useEffect(() => {
+    document.title = 'Climate Check';
+  }, []);
   return (
     <div>
     <Router>

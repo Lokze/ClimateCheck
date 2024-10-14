@@ -1,7 +1,7 @@
 import Container from "react-bootstrap/esm/Container";
 import alertimg from '../modules/media/bAllert.png'
 
-function apiUnaviable() {
+function ApiUnaviable() {
     return (
         <div>
             <Container fluid className="text-center d-flex flex-column p-4 justify-content-center">
@@ -21,4 +21,4 @@ function apiUnaviable() {
     );
 }
 
-export default apiUnaviable
+export default ApiUnaviable

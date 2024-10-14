@@ -16,9 +16,14 @@ import {
 } from 'chart.js';
 import ApiUnaviable from './apiUnaviable';
 
+
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 function GlobalWarmingPage() {
+    useEffect(() => {
+        document.title = 'Climate Check';
+      }, []);
+
     const getResponsiveWidth = () => {
         const screenWidth = window.innerWidth;
         if (screenWidth < 576) {
