@@ -65,3 +65,25 @@ export const fetchNitrousData = async () => {
         throw new Error('Something went wrong with the nitrous oxide API call.');
     }
 };
+
+export const fetchArcticData = async () => {
+    try {
+        const response = await axios.get('https://global-warming.org/api/arctic-api');
+        const fetchedData = response.data.arcticData.data;
+
+        const newData = Object.entries(fetchedData)
+            .map(([dateKey, data]) => ({
+                year: dateKey.slice(0, 4),
+                trend: parseFloat(data.value)
+            }))
+            .filter(entry => !isNaN(entry.trend) && entry.trend !== -9999); // Ignore invalid values
+
+        const dataByYear = groupBy(newData, 'year');
+        const time = Object.keys(dataByYear);
+        const trend = time.map(year => dataByYear[year][0].trend);
+
+        return { time, trend };
+    } catch (error) {
+        throw new Error('Something went wrong with the Arctic data API call.');
+    }
+};
